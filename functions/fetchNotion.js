@@ -18,17 +18,14 @@ async function retrieveBlockChildren(blockId) {
 
     // Iterar sobre los bloques para construir el título y el contenido.
     response.results.forEach(block => {
-
-      return block;
-      // if (block.type === 'heading_1' && block.heading_1 && !titulo) {
-      //   titulo = block.heading_1.text[0].plain_text;
-      // } else if (block.type === 'paragraph' && block.paragraph) {
-      //   contenido += block.paragraph.text.map(text => text.plain_text).join(' ');
-      //   contenido += "\n\n"; // Añadir dos saltos de línea después de cada párrafo.
-      // } 
+      if (block.type === 'heading_1' && block.heading_1 && !titulo) {
+        titulo = block.heading_1.text[0].plain_text;
+      } else if (block.type === 'paragraph' && block.paragraph) {
+        contenido += block.paragraph.text.map(text => text.plain_text).join(' ');
+        contenido += "\n\n"; // Añadir dos saltos de línea después de cada párrafo.
+      } 
     });
-    return response;
-    //return { titulo, contenido: contenido.trim() }; // Eliminar espacios al inicio y final del contenido.
+    return { titulo, contenido: contenido.trim() }; // Eliminar espacios al inicio y final del contenido.
   } catch (error) {
     console.error("Error al recuperar los bloques hijos:", error);
     throw error; // Lanzar el error para manejarlo en la función handler.
