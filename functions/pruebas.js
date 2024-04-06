@@ -15,17 +15,21 @@ async function retrieveBlockChildren(blockId) {
     });
     let titulo = "";
     let contenido = "";
+    let imagen = "";
 
     // Iterar sobre los bloques para construir el título y el contenido.
     response.results.forEach(block => {
+
       if (block.type === 'heading_1' && block.heading_1 && !titulo) {
         titulo = block.heading_1.text[0].plain_text;
-      } else if (block.type === 'paragraph' && block.paragraph) {
-        contenido += block.paragraph.text.map(text => text.plain_text).join(' ');
-        
-      } 
+      } else if (block.type === 'image') {
+        imagen = block.image.caption[0].plain_text;
+      }
+
+
+
     });
-    return { titulo, contenido: contenido.trim() }; // Eliminar espacios al inicio y final del contenido.
+    return { response, titulo, imagen }; // Eliminar espacios al inicio y final del contenido.
   } catch (error) {
     console.error("Error al recuperar los bloques hijos:", error);
     throw error; // Lanzar el error para manejarlo en la función handler.
