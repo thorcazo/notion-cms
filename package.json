@@ -11,6 +11,7 @@
     "vite": "^2.7.0"
   },
   "dependencies": {
-    "@notionhq/client": "^0.4.9"
+    "@notionhq/client": "^0.4.9",
+    "dotenv": "^16.4.5"
   }
 }
