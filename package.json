@@ -7,11 +7,12 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "netlify-cli": "^8.0.20",
+    "netlify-cli": "^8.19.3",
     "vite": "^2.7.0"
   },
   "dependencies": {
-    "@notionhq/client": "^0.4.9",
-    "dotenv": "^16.4.5"
+    "@notionhq/client": "^0.4.13",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3"
   }
 }

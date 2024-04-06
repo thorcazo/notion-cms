@@ -1,20 +1,35 @@
 async function fetchDataFromAPIEndpoint() {
-    const cards = await fetch('/api/fetchNotion').then((res) => res.json().then((data) => data.results));
-    document.querySelector('.card-container').innerHTML = cards
-        .map(
-            (card) => `
-    <article class="card">
-      <img src="${card.properties.Image.files[0].external.url}" alt="${card.properties.Name.title[0].plain_text}"
-        class="card__image">
-      <h2 class="card__heading">${card.properties.Name.title[0].plain_text}</h2>
-      <div class="card__content">
-        <p>${card.properties.Content.rich_text[0].plain_text}
-        </p>
-      </div>
-      <a href="${card.properties.Link.url}" class="card__btn">${card.properties.Btn_text.rich_text[0].plain_text}</a>
-    </article>
-    `
-        )
-        .join('');
+  try {
+    const response = await fetch('/api/fetchNotion');
+    const data = await response.json();
+    console.log(data);
+    
+    // La estructura de tu objeto es { pages: [...] }
+    const cards = data.pages;
+
+    const container = document.getElementById('container');
+
+    // Asegúrate de que cards es un array y tiene elementos.
+    if (Array.isArray(cards) && cards.length > 0) {
+      cards.forEach(card => {
+        // Aquí debes crear nuevos elementos para cada card o clonar y modificar uno existente.
+        // Si estás intentando clonar, deberías hacerlo dentro del forEach para clonar un nuevo elemento para cada card.
+        const cardElement = document.querySelector('.container__card').cloneNode(true);
+        const cardTitle = cardElement.querySelector('.card__title'); // Asegúrate de seleccionar dentro del clon, no del documento.
+        
+        // Aquí estás accediendo a la estructura de tu objeto de la respuesta de la API.
+        cardTitle.textContent = card.titulo;
+        cardElement.querySelector('.card__content').textContent = card.contenido;
+
+        // Agrega el nuevo cardElement al container.
+        container.appendChild(cardElement);
+      });
+    } else {
+      console.error('No hay cards para mostrar.');
+    }
+  } catch (error) {
+    console.error('Hubo un error al recuperar los datos:', error);
+  }
 }
+
 fetchDataFromAPIEndpoint();
